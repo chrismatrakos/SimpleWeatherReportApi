@@ -1,6 +1,7 @@
 var mainApp = angular.module("mainApp", []);
+var myStorage = window.localStorage;
 
-mainApp.value("searchCity", "type to search another city...");
+mainApp.value("searchCity", "Type to search another city...");
 
 mainApp.factory('WeatherApiService', function($http) {
     var factory = {};
@@ -52,9 +53,18 @@ mainApp.service('WeatherService', function(WeatherApiService){
 var countries = [];
 var tempCities = [];
 var index = 0;
+var storage = {};
 
 mainApp.controller('WeatherController', function($scope, WeatherService, searchCity) {
-    $scope.searchCity = searchCity;
+    $scope.searchCity = searchCity;    
+    $scope.init = function () {
+        storage = JSON.parse(myStorage.getItem('city'));
+        console.log(storage);
+        if(storage != null){
+            setValues(storage);
+        }
+    };
+    
     $scope.square = function() {
         countries = [];
         tempCities = [];
@@ -65,8 +75,8 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
 
             //check and prompt unique city
             if (response.data.list.length == 1) {
-                $scope.stateUS = "";
                 var obj = response.data.list[0];
+                obj['state'] = "";
                 console.log(obj)
                 setValues(obj);
             }
@@ -99,7 +109,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
             console.log("object parsed " + selectedCity.lat + " " + selectedCity.lon);
             for (var obj of tempCities) {
                 if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon){
-                    $scope.stateUS = selectedCity.state;
+                    obj['state'] = selectedCity.state;
                     setValues(obj);
                     return 0;     
                 }
@@ -109,13 +119,17 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
     
     var setValues = function(obj){
         console.log("set values" + JSON.stringify(obj));
+        // $scope.searchCity = obj.name;
         $scope.city = obj.name;
         $scope.country = obj.sys.country;
         $scope.temp = obj.main.temp;
         $scope.hum = obj.main.humidity;
         $scope.wind = obj.wind.speed;
         $scope.code = obj.weather[0].description;
+        $scope.stateUS = obj.state;
+        myStorage.setItem('city', JSON.stringify(obj));
     }
+
     var cleanup = function(){
         $scope.city = "";
         $scope.country = "";

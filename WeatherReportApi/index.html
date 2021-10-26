@@ -10,11 +10,11 @@
 
 	<body>
 		<h2>AngularJS Simple Weather App</h2>
-		<div ng-app = "mainApp" ng-controller = "WeatherController" id="dataBoard">
+		<div ng-app = "mainApp" ng-controller = "WeatherController" id="dataBoard" data-ng-init="init()">
 
 			<div id="dataBox">
 				<div id="mainInfo" style="width: 100%; float:left">
-					<p> <h1><strong><i class="fa fa-thumb-tack" aria-hidden="true"></i> {{city}} {{country}} {{stateUS}}</strong></h1></p>
+					<p> <h1><strong><i class="fa fa-thumb-tack" aria-hidden="true"></i> {{city}} {{stateUS}} {{country}}</strong></h1></p>
 					<p><h1> {{temp}} <strong>&#8451;</strong></h1></p>
 					<p> {{code}} </p>
 					<img ng-src="{{myVar}}">
@@ -33,7 +33,7 @@
 			<div class="many">
 				<select ng-model="selectedItem" ng-change="selectedItemChanged()" ng-show="areMultipleCities">
 					<option value="">Select a specific city from the list below</option>
-					<option ng-repeat= "x in names" value="{{ x }}" ng-click = "selectedItemChanged()"> {{ x.name }} {{ x.country }} {{ x.state }} </option>
+					<option ng-repeat= "x in names" value="{{ x }}" ng-click = "selectedItemChanged()"> {{ x.name }} {{ x.state }} {{ x.country }} </option>
 				</select>
 			</div>
 
