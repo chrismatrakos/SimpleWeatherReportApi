@@ -76,7 +76,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
             //multiple cities with same name, need to Filter
             else {
                 $scope.areMultipleCities = true;
-                $scope.city = response.data.name;
+                // cleanup();
                 console.log("all cities and temp" + response.data.list)
                 temp_cities = response.data.list;
                 for (var obj of response.data.list) {
@@ -96,26 +96,35 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
     $scope.selectedItemChanged = function() {
         if ($scope.selectedItem == "") {
             console.log("Select one of the cities" );        
-
         }
         else{        
             var selectedCity = JSON.parse($scope.selectedItem);
             console.log("object parsed " + selectedCity.lat + " " + selectedCity.lon);
             for (var obj of temp_cities) {
-                if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon)
-                $scope.city = obj.name;
-                $scope.country = obj.country;
-                $scope.temp = obj.main.temp;
-                $scope.hum = obj.main.humidity;
-                $scope.wind = obj.wind.speed;
-                $scope.code = obj.weather[0].description;
-                temp_cities = [];
-                $scope.areMultipleCities = false;
-                return 0;
-            };           
+                if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon){
+                    $scope.city = selectedCity.name;
+                    $scope.country = obj.country;
+                    $scope.temp = obj.main.temp;
+                    $scope.hum = obj.main.humidity;
+                    $scope.wind = obj.wind.speed;
+                    $scope.code = obj.weather[0].description;
+                    temp_cities = [];
+                    $scope.names = "";
+                    $scope.areMultipleCities = false;
+                    return 0;            
+                }
+            };
         }
-
-
+    }
+    
+    var cleanup = function(){
+        $scope.city = "";
+        $scope.country = "";
+        $scope.temp = "";
+        $scope.hum = "";
+        $scope.wind = "";
+        $scope.code = "";
+        return 0
     }
 });
 
