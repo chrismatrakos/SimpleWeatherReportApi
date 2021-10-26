@@ -33,7 +33,7 @@
 			<div class="many">
 				<select ng-model="selectedItem" ng-change="selectedItemChanged()" ng-show="areMultipleCities">
 					<option value="">--Select Specific City--</option>
-					<option ng-repeat= "x in names" value="{{x.id}}" ng-click = "selectedItemChanged()"> {{ x.name }} {{ x.country }} {{ x.state }} </option>
+					<option ng-repeat= "x in names" value="{{ x }}" ng-click = "selectedItemChanged()"> {{ x.name }} {{ x.country }} {{ x.state }} </option>
 				</select>
 			</div>
 

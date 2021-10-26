@@ -50,12 +50,14 @@ mainApp.service('WeatherService', function(WeatherApiService){
 });
 
 var countries = [];
+var temp_cities = [];
 var index = 0;
 
 mainApp.controller('WeatherController', function($scope, WeatherService, searchCity) {
-  $scope.searchCity = searchCity;
-    countries = [];
+    $scope.searchCity = searchCity;
     $scope.square = function() {
+        countries = [];
+        temp_cities = [];
         $scope.areMultipleCities = false;
         WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
             console.log(response.data);// has more fields!!!
@@ -71,11 +73,15 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
                 $scope.wind = obj.wind.speed;
                 $scope.code = obj.weather[0].description;
             }
+            //multiple cities with same name, need to Filter
             else {
                 $scope.areMultipleCities = true;
                 $scope.city = response.data.name;
+                console.log("all cities and temp" + response.data.list)
+                temp_cities = response.data.list;
                 for (var obj of response.data.list) {
                    WeatherService.getWeatherByLocation(obj.coord.lat, obj.coord.lon).then(function(response) {
+                        console.log(response.data[0]);
                         countries[index] = response.data[0];
                         index = index + 1;
                     });           
@@ -88,16 +94,28 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
     }
 
     $scope.selectedItemChanged = function() {
-        console.log("object " + $scope.selectedItem);
-        // console.log("object " + obj);
-        // var obj=$scope.selectedItem;
-        // $scope.city = obj.name;
-        // $scope.country = obj.country;
-        // $scope.temp = obj.main.temp;
-        // $scope.hum = obj.main.humidity;
-        // $scope.wind = obj.wind.speed;
-        // $scope.code = obj.weather[0].description;
-        //$scope.areMultipleCities = false;
+        if ($scope.selectedItem == "") {
+            console.log("Select one of the cities" );        
+
+        }
+        else{        
+            var selectedCity = JSON.parse($scope.selectedItem);
+            console.log("object parsed " + selectedCity.lat + " " + selectedCity.lon);
+            for (var obj of temp_cities) {
+                if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon)
+                $scope.city = obj.name;
+                $scope.country = obj.country;
+                $scope.temp = obj.main.temp;
+                $scope.hum = obj.main.humidity;
+                $scope.wind = obj.wind.speed;
+                $scope.code = obj.weather[0].description;
+                temp_cities = [];
+                $scope.areMultipleCities = false;
+                return 0;
+            };           
+        }
+
+
     }
 });
 
