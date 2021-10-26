@@ -50,14 +50,14 @@ mainApp.service('WeatherService', function(WeatherApiService){
 });
 
 var countries = [];
-var temp_cities = [];
+var tempCities = [];
 var index = 0;
 
 mainApp.controller('WeatherController', function($scope, WeatherService, searchCity) {
     $scope.searchCity = searchCity;
     $scope.square = function() {
         countries = [];
-        temp_cities = [];
+        tempCities = [];
         $scope.selectedItem = "";
         $scope.areMultipleCities = false;
         WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
@@ -65,6 +65,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
 
             //check and prompt unique city
             if (response.data.list.length == 1) {
+                $scope.stateUS = "";
                 var obj = response.data.list[0];
                 console.log(obj)
                 setValues(obj);
@@ -74,7 +75,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
                 $scope.areMultipleCities = true;
                 // cleanup();
                 console.log("all cities and temp" + response.data.list)
-                temp_cities = response.data.list;
+                tempCities = response.data.list;
                 for (var obj of response.data.list) {
                    WeatherService.getWeatherByLocation(obj.coord.lat, obj.coord.lon).then(function(response) {
                         console.log(response.data[0]);
@@ -96,8 +97,9 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         else{        
             var selectedCity = JSON.parse($scope.selectedItem);
             console.log("object parsed " + selectedCity.lat + " " + selectedCity.lon);
-            for (var obj of temp_cities) {
+            for (var obj of tempCities) {
                 if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon){
+                    $scope.stateUS = selectedCity.state;
                     setValues(obj);
                     return 0;     
                 }
@@ -106,6 +108,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
     }
     
     var setValues = function(obj){
+        console.log("set values" + JSON.stringify(obj));
         $scope.city = obj.name;
         $scope.country = obj.sys.country;
         $scope.temp = obj.main.temp;
