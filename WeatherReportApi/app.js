@@ -58,10 +58,10 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
     $scope.square = function() {
         countries = [];
         temp_cities = [];
-        $scope.selectedItem = ""
+        $scope.selectedItem = "";
         $scope.areMultipleCities = false;
         WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
-            console.log(response.data);// has more fields!!!
+            console.log("get request response" + response.data);// has more fields!!!
 
             //check and prompt unique city
             if (response.data.list.length == 1) {
@@ -109,8 +109,6 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
                     $scope.hum = obj.main.humidity;
                     $scope.wind = obj.wind.speed;
                     $scope.code = obj.weather[0].description;
-                    temp_cities = [];
-                    $scope.areMultipleCities = false;
                     return 0;     
                 }
             };
