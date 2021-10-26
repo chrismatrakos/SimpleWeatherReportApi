@@ -74,7 +74,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
             console.log("get request response" + response.data);// has more fields!!!
 
             //check and prompt unique city
-            if (response.data.list.length == 1) {
+            if (response.data.list.length <= 1) {
                 var obj = response.data.list[0];
                 obj['state'] = "";
                 console.log(obj)
