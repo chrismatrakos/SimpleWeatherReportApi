@@ -14,7 +14,7 @@
 
 			<div id="dataBox">
 				<div id="mainInfo" style="width: 100%; float:left">
-					<p> <h1><strong><i class="fa fa-thumb-tack" aria-hidden="true"></i> {{city}}, {{country}} </strong></h1></p>
+					<p> <h1><strong><i class="fa fa-thumb-tack" aria-hidden="true"></i> {{city}} {{country}} </strong></h1></p>
 					<p><h1> {{temp}} <strong>&#8451;</strong></h1></p>
 					<p> {{code}} </p>
 					<img ng-src="{{myVar}}">
@@ -30,11 +30,13 @@
 				<button ng-click = "square()" style="width: 35%; float:right">find city</button>
 			</div>
 
-			<ul>
-				<li ng-repeat="x in names | filter: 'London' ">
-				  {{ x }}
-				</li>
-			  </ul>
+			<div class="many">
+				<select ng-model="selectedItem" ng-change="selectedItemChanged()" ng-show="areMultipleCities">
+					<option value="">--Select Specific City--</option>
+					<option ng-repeat= "x in names" value="{{x.id}}" ng-click = "selectedItemChanged()"> {{ x.name }} {{ x.country }} {{ x.state }} </option>
+				</select>
+			</div>
+
 		</div>
 
 		

@@ -49,9 +49,14 @@ mainApp.service('WeatherService', function(WeatherApiService){
     }
 });
 
+var countries = [];
+var index = 0;
+
 mainApp.controller('WeatherController', function($scope, WeatherService, searchCity) {
   $scope.searchCity = searchCity;
+    countries = [];
     $scope.square = function() {
+        $scope.areMultipleCities = false;
         WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
             console.log(response.data);// has more fields!!!
 
@@ -67,22 +72,32 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
                 $scope.code = obj.weather[0].description;
             }
             else {
+                $scope.areMultipleCities = true;
                 $scope.city = response.data.name;
-                $scope.names = response.data.list    
                 for (var obj of response.data.list) {
-                    WeatherService.getWeatherByLocation(obj.coord.lat, obj.coord.lon).then(function(response) {
-                        console.log(response.data);
-                    });
-                    console.log(obj.main.temp)
-                    $scope.city = obj.name;
-                    $scope.country = obj.sys.country;
-                    $scope.temp = obj.main.temp;
-                    $scope.hum = obj.main.humidity;
-                    $scope.wind = obj.wind.speed;
-                    $scope.code = obj.weather[0].description;                
+                   WeatherService.getWeatherByLocation(obj.coord.lat, obj.coord.lon).then(function(response) {
+                        countries[index] = response.data[0];
+                        index = index + 1;
+                    });           
                 }
+                console.log(countries);
+                index = 0;
+                $scope.names = countries;
             }
         });
+    }
+
+    $scope.selectedItemChanged = function() {
+        console.log("object " + $scope.selectedItem);
+        // console.log("object " + obj);
+        // var obj=$scope.selectedItem;
+        // $scope.city = obj.name;
+        // $scope.country = obj.country;
+        // $scope.temp = obj.main.temp;
+        // $scope.hum = obj.main.humidity;
+        // $scope.wind = obj.wind.speed;
+        // $scope.code = obj.weather[0].description;
+        //$scope.areMultipleCities = false;
     }
 });
 
