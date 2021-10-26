@@ -1,2 +1,2 @@
-# SimpleWeatherReportApi
-A simple apir for weather report per city
+# WeatherReportProject
+A simple api for weather report per city
