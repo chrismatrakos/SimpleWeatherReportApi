@@ -67,12 +67,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
             if (response.data.list.length == 1) {
                 var obj = response.data.list[0];
                 console.log(obj)
-                $scope.city = obj.name;
-                $scope.country = obj.sys.country;
-                $scope.temp = obj.main.temp;
-                $scope.hum = obj.main.humidity;
-                $scope.wind = obj.wind.speed;
-                $scope.code = obj.weather[0].description;
+                setValues(obj);
             }
             //multiple cities with same name, need to Filter
             else {
@@ -103,18 +98,21 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
             console.log("object parsed " + selectedCity.lat + " " + selectedCity.lon);
             for (var obj of temp_cities) {
                 if(selectedCity.lat == obj.coord.lat && selectedCity.lon == obj.coord.lon){
-                    $scope.city = selectedCity.name;
-                    $scope.country = obj.country;
-                    $scope.temp = obj.main.temp;
-                    $scope.hum = obj.main.humidity;
-                    $scope.wind = obj.wind.speed;
-                    $scope.code = obj.weather[0].description;
+                    setValues(obj);
                     return 0;     
                 }
             };
         }
     }
     
+    var setValues = function(obj){
+        $scope.city = obj.name;
+        $scope.country = obj.sys.country;
+        $scope.temp = obj.main.temp;
+        $scope.hum = obj.main.humidity;
+        $scope.wind = obj.wind.speed;
+        $scope.code = obj.weather[0].description;
+    }
     var cleanup = function(){
         $scope.city = "";
         $scope.country = "";
