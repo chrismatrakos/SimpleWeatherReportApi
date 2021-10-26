@@ -61,7 +61,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         storage = JSON.parse(myStorage.getItem('city'));
         console.log(storage);
         if(storage != null){
-            setValues(storage);
+            loadData(storage);
         }
     };
     
@@ -115,6 +115,20 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
                 }
             };
         }
+    }
+    
+    var loadData = function(storageObj){
+        $scope.searchCity = storageObj.name;
+        WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
+            for (var obj of response.data.list) {
+                if(obj.id == storageObj.id){
+                    obj['state'] = storageObj.state;
+                    setValues(obj);
+                    return 0;
+                }          
+            }
+             
+        });
     }
     
     var setValues = function(obj){
