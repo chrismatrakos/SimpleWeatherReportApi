@@ -28,6 +28,12 @@
 				<input ng-model = "searchCity" style="width: 60%; float:left" input type="text" ng-value="message"/>			
 				<button ng-click = "square()" style="width: 35%; float:right">find city</button>
 			</div>
+
+			<ul>
+				<li ng-repeat="x in names | filter: {{ country }} ">
+				  {{ x }}
+				</li>
+			  </ul>
 		</div>
 
 		
