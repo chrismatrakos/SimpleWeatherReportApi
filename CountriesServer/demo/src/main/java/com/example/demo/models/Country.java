@@ -1,18 +1,19 @@
-package com.example.demo;
-
+package com.example.demo.models;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 import javax.persistence.Entity;
 
 @Entity
-class Country {
-
-  private Long id;
+public class Country {
+ 
+  private @Id @GeneratedValue Long id;
   private String name;
   private String role;
 
   Country() {}
 
-  Country(Long id, String name, String role) {
+  Country(String name, String role) {
     this.id = id; 
     this.name = name;
     this.role = role;

@@ -1,8 +1,9 @@
-package com.example.demo;
-
+package com.example.demo.controllers;
 import java.util.List;
 import java.util.*;
 import java.util.function.*;
+import com.example.demo.services.ICountryService;
+import com.example.demo.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,23 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-class CountryController {
-
-  // private CountryRepository repository;
+public class CountryController {  
   
-  // CountryController(CountryRepository repository) {
-  //   this.repository = repository;
-  // }
+  @Autowired
+  private ICountryService countryService;
 
-	 @GetMapping("/hello")
-		public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-				return String.format("Hello %s!", name);
-		}
+  CountryController() {}
+  
+	@GetMapping("/hello")
+	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+			return countryService.getInit(name);
+	}
   
   // @GetMapping("/countries")
   // List<Country> all() {
-  //  return String.format("Hello");
-  //   // return repository.findAll();
+  //   return repository.findAll();
   // }
   
   // @GetMapping("/countries/{name}")
