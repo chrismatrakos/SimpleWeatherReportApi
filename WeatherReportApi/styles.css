@@ -56,6 +56,17 @@ body {
   min-height: 40px;
 }
 
+#button3 {
+  background-color: transparent;
+  border: transparent;
+}
+
+#button4 {
+  background-color: transparent;
+  border: transparent;
+
+}
+
 button:hover {
   opacity: 0.5;
   color:#F09020;

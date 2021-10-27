@@ -15,11 +15,23 @@
 			<div id="dataBox">
 				<div id="mainInfo" style="width: 100%; float:left">
 					<p> <h1><strong><i class="fa fa-thumb-tack" aria-hidden="true"></i> {{city}} {{stateUS}} {{country}}</strong></h1></p>
-					<p><h1> {{temp}} <strong>&#8451;</strong></h1></p>
+					<p><h1> {{temp}} <span>
+						<button id="button3" ng-click="convertToCelsious()" ng-show="showTempMetric" ng-disabled="celsiousClicked">
+							&#8451;
+						</button>
+						<span><strong> | </strong></span>
+						<span>
+							<button id="button4" ng-click="convertToFahrenheit()" ng-show="showTempMetric" ng-disabled="fahrClicked">
+								&#8457;
+							</button>
+						</span>
+					</span> </h1> 
+				</p>
+			
 					<p> {{code}} </p>
 					<img ng-src="{{myVar}}">
 					<p><i class="fa fa-flag-o" aria-hidden="true"></i> wind-speed: {{wind}} km/h</p>
-          			<p><i class="fa fa-tint" aria-hidden="true"></i> humidity: {{hum}} %</p>
+     <p><i class="fa fa-tint" aria-hidden="true"></i> humidity: {{hum}} %</p>
 				</div>
 			</div>
 

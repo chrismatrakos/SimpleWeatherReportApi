@@ -61,6 +61,8 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         storage = JSON.parse(myStorage.getItem('city'));
         console.log(storage);
         if(storage != null){
+            $scope.celsiousClicked = true;
+            $scope.showTempMetric = true;
             loadData(storage);
         }
     };
@@ -117,6 +119,20 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         }
     }
     
+    $scope.convertToFahrenheit = function() {
+        var fahr = $scope.temp / 5 * 9 + 32;
+        $scope.fahrClicked=true;
+        $scope.celsiousClicked=false;
+        $scope.temp = (Math.round(fahr * 100) / 100).toFixed(2);
+    }
+    
+    $scope.convertToCelsious = function() {
+        var cels = ($scope.temp -32 ) * 5 / 9;
+        $scope.celsiousClicked=true;
+        $scope.fahrClicked=false;
+        $scope.temp = (Math.round(cels * 100) / 100).toFixed(2);
+    }
+
     $scope.clearData = function () {
         cleanup();
     };
@@ -145,6 +161,8 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         $scope.wind = obj.wind.speed;
         $scope.code = obj.weather[0].description;
         $scope.stateUS = obj.state;
+        $scope.showTempMetric = true;
+        $scope.celsiousClicked=true;
         myStorage.setItem('city', JSON.stringify(obj));
     }
 
@@ -157,6 +175,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         $scope.wind = "";
         $scope.code = "";
         $scope.searchCity = searchCity;
+        $scope.showTempMetric = false;
         myStorage.clear();
         return 0;
     }
