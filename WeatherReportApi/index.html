@@ -26,8 +26,9 @@
 
 			<div id="searchBox">
 				<input ng-model = "searchCity" style="width: 60%; float:left" input type="text" ng-value="message"/>			
-				<input ng-model = "country" style="width: 60%; float:left" ng-value="message" hidden="true"/>				
-				<button ng-click = "square()" style="width: 35%; float:right">find city</button>
+				<input ng-model = "country" style="width: 40%; float:left" ng-value="message" hidden="true"/>
+				<button id="button2" ng-click = "clearData()">clear data</button>
+				<button id="button1" ng-click = "square()">find city</button>
 			</div>
 
 			<div class="many">

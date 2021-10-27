@@ -117,6 +117,10 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         }
     }
     
+    $scope.clearData = function () {
+        cleanup();
+    };
+    
     var loadData = function(storageObj){
         $scope.searchCity = storageObj.name;
         WeatherService.getWeatherByCity($scope.searchCity).then(function(response) {
@@ -146,12 +150,15 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
 
     var cleanup = function(){
         $scope.city = "";
+        $scope.stateUS = "";
         $scope.country = "";
         $scope.temp = "";
         $scope.hum = "";
         $scope.wind = "";
         $scope.code = "";
-        return 0
+        $scope.searchCity = searchCity;
+        myStorage.clear();
+        return 0;
     }
 });
 
