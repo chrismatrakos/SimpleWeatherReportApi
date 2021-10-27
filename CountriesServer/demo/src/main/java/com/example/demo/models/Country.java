@@ -11,9 +11,9 @@ public class Country {
   private String name;
   private String role;
 
-  Country() {}
+  public Country() {}
 
-  Country(String name, String role) {
+  public Country(String name, String role) {
     this.id = id; 
     this.name = name;
     this.role = role;

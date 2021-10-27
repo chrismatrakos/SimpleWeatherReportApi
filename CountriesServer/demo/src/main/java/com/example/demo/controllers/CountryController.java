@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
+import com.example.demo.models.Country;
 import java.util.List;
-import java.util.*;
 import java.util.function.*;
 import com.example.demo.services.ICountryService;
 import com.example.demo.repositories.CountryRepository;
@@ -27,10 +27,10 @@ public class CountryController {
 			return countryService.getInit(name);
 	}
   
-  // @GetMapping("/countries")
-  // List<Country> all() {
-  //   return repository.findAll();
-  // }
+  @GetMapping("/countries")
+  List<Country> all() {
+    return countryService.getAll();
+  }
   
   // @GetMapping("/countries/{name}")
   // Country one(@PathVariable String name) {

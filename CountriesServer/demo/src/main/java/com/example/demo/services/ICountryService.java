@@ -3,7 +3,7 @@ import com.example.demo.models.Country;
 import java.util.List;
 
 public interface ICountryService {
-    // List<Country> findAll();
+    List<Country> getAll();
     public String getInit(String text);
     public String getCountry(String name);
 
