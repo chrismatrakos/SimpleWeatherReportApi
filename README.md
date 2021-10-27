@@ -16,8 +16,8 @@ Type in the search city area a city you want to get weather report.
 If city is unique the weather information will appear in the form.  
 If there are many names with same city a dropwdown list will appear to make city selection   
 more explicit.  
-You can switch between Celsious and Fahrenheit temperatures. (Click the C or F symbol next to temperature).
-Data are stored in local storage so if you refresh or close and open the browser the last searched city info will be displayed.  
+You can switch between Celsious and Fahrenheit temperatures. (Click the C or F symbol next to temperature).  
+Data are stored in local storage, if you refresh or close and open the browser the last searched city info will be displayed.  
 
 ### PROJECT 2, Java Server using Spring.  
 

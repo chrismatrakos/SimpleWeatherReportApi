@@ -1,5 +1,6 @@
 var mainApp = angular.module("mainApp", []);
 var myStorage = window.localStorage;
+const appId = "1cb6ace31e50401f28b864f0b23fdc68";
 
 mainApp.value("searchCity", "Type to search another city...");
 
@@ -15,7 +16,7 @@ mainApp.factory('WeatherApiService', function($http) {
                 mode: 'json',
                 units: 'metric',
                 cnt: '7',
-                appid: '1cb6ace31e50401f28b864f0b23fdc68'
+                appid: appId
             }
         };
         return $http(request);        
@@ -32,7 +33,7 @@ mainApp.factory('WeatherApiService', function($http) {
                 mode: 'json',
                 units: 'metric',
                 cnt: '7',
-                appid: '1cb6ace31e50401f28b864f0b23fdc68'
+                appid: appId
             }
         };
         return $http(request);
@@ -163,6 +164,7 @@ mainApp.controller('WeatherController', function($scope, WeatherService, searchC
         $scope.stateUS = obj.state;
         $scope.showTempMetric = true;
         $scope.celsiousClicked=true;
+        $scope.fahrClicked=false;
         myStorage.setItem('city', JSON.stringify(obj));
     }
 
