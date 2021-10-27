@@ -23,7 +23,12 @@ Data are stored in local storage, if you refresh or close and open the browser t
 
 ### Description  
 
+### Setup  
+Java jdk install check with java -v 
+JAVA_HOME path is set to jdk_1.xx\bin
 
 ### Run locally   
+Go to demo and run command mvnw spring-boot:run  
+Open browser and go to localhost:8080/hello  
 
 ### How to use  
