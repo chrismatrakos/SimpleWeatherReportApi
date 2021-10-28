@@ -24,7 +24,7 @@ public class CountryService implements ICountryService {
   private static final ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
-  public List<Country> getAll() {
+  public List<Object> getAll() {
     WebClient client = WebClient.create();
     WebClient.ResponseSpec responseSpec = client
       .get()
@@ -32,8 +32,7 @@ public class CountryService implements ICountryService {
       .retrieve();
     String responseBody = responseSpec.bodyToMono(String.class).block();
     System.out.println(responseBody);
-    parseResponse(responseBody);
-    return new ArrayList<>();
+    return parseResponseAll(responseBody);
   }
 
   @Override
@@ -67,7 +66,7 @@ public class CountryService implements ICountryService {
  
   }
 
-  private List<Country> parseResponse(String responseBody) {
+  private List<Object> parseResponseAll(String responseBody) {
     ObjectMapper mapper = new ObjectMapper();
     List<Object> countriesList = new ArrayList<>();
     try {
@@ -76,6 +75,6 @@ public class CountryService implements ICountryService {
     } catch (Exception e) {
       System.out.println("FAILED");
     }
-    return new ArrayList<>();
+    return countriesList;
   }
 }
