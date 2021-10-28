@@ -36,8 +36,10 @@ Java jdk install check with
 JAVA_HOME path is set to env variables, ex: C:\user\ProgramFiles\jdk_1.xx\bin  
 
 ### Run locally   
-Go to demo and run command mvnw spring-boot:run  
-Open browser and go to ```localhost:8080/hello```  
+Clone the repo locally.  
+Go to demo folder and from there run the command ```mvnw spring-boot:run ```  
+That command will load all dependencies and start the server.  
+ONce the server is running pen browser and go to ```localhost:8080/hello```  
 
 ### How to use  
 All countries data are fetched from 
@@ -48,5 +50,5 @@ A specific country is fetched from
 ```bash
  localhost:8080/countries/countryName
 ```  
-Replace countryName with the actual name in teh above url.  
+Replace countryName with the actual name in the above url.  
 
