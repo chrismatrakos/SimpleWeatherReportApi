@@ -22,15 +22,31 @@ Data are stored in local storage, if you refresh or close and open the browser t
 ### PROJECT 2, Java Server using Spring.  
 
 ### Description  
+Simple Java server using spring and rest.  
+The server calls an external api to fetch all the data.  
+The API used is ``` http://api.countrylayer.com/v2/all ```.  
+I have created an access token since its required for each query.  
 
 ### Setup  
-Java jdk install check with java -v 
-JAVA_HOME path is set to jdk_1.xx\bin
+Java jdk install check with  
+ ```bash
+ java -v
+```  
+
+JAVA_HOME path is set to env variables, ex: C:\user\ProgramFiles\jdk_1.xx\bin  
 
 ### Run locally   
 Go to demo and run command mvnw spring-boot:run  
-Open browser and go to localhost:8080/hello  
+Open browser and go to ```localhost:8080/hello```  
 
 ### How to use  
+All countries data are fetched from 
+```bash
+ localhost:8080/countries
+```  
+A specific country is fetched from  
+```bash
+ localhost:8080/countries/countryName
+```  
+Replace countryName with the actual name in teh above url.  
 
-https://restcountries.com/v3.1/all
