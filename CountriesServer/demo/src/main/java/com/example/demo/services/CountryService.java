@@ -55,7 +55,14 @@ public class CountryService implements ICountryService {
   }
 
   private String parseCountryByName(String responseBody) {
-    System.out.println(responseBody.toString());
+    System.out.println("response ------- " + responseBody.toString());
+
+    Gson g1 = new Gson();
+    Country[] myTypes = g1.fromJson(responseBody.toString(), Country[].class);
+    System.out.println("g1 ====== " + g1.toJson(myTypes));
+    
+    System.out.println("g2 ====== " + myTypes[0].toString());
+
     ObjectMapper mapper = new ObjectMapper();
     List<Object> countriesList = new ArrayList<>();
     try {
@@ -64,14 +71,15 @@ public class CountryService implements ICountryService {
     } catch (Exception e) {
       System.out.println("FAILED");
     }
-    System.out.println("list = " + countriesList);
-    String c = countriesList.get(0).toString();
+    System.out.println("list ====== " + countriesList);
+    Object c = countriesList.get(0);
+    System.out.println("c ======== " + c);
+
     // Gson g = new Gson();
     // Country country = g.fromJson(c, Country.class);
     // System.out.println(country.name); // John
-    
     Gson g = new Gson();
-    Person person = g.fromJson("{name:John,city:John1,test:John2}", Person.class);
+    Person person = g.fromJson(c.toString(), Person.class);
     System.out.println(person.name); // John
     System.out.println(g.toJson(person)); // {"name":"John"}
     return String.format("%s!", countriesList.get(0).toString());
