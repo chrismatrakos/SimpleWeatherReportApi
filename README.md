@@ -37,7 +37,8 @@ JAVA_HOME path is set to env variables, ex: C:\user\ProgramFiles\jdk_1.xx\bin
 
 ### Run locally   
 Clone the repo locally.  
-Go to demo folder and from there run the command ```mvnw spring-boot:run ```  
+Go to the demo folder "SimpleWeatherReportApi\CountriesServer\demo".  
+From the root dir of demo folder run the command ```mvnw spring-boot:run ```  
 That command will load all dependencies and start the server.  
 ONce the server is running pen browser and go to ```localhost:8080/hello```  
 
