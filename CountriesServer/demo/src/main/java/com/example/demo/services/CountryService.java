@@ -17,6 +17,8 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Service
 public class CountryService implements ICountryService {
@@ -31,7 +33,7 @@ public class CountryService implements ICountryService {
       .uri("http://api.countrylayer.com/v2/all"+access_key_query)
       .retrieve();
     String responseBody = responseSpec.bodyToMono(String.class).block();
-    System.out.println(responseBody);
+    System.out.println("test ------------------------- " + responseBody.toString());
     return parseResponseAll(responseBody);
   }
 
@@ -53,6 +55,7 @@ public class CountryService implements ICountryService {
   }
 
   private String parseCountryByName(String responseBody) {
+    System.out.println(responseBody.toString());
     ObjectMapper mapper = new ObjectMapper();
     List<Object> countriesList = new ArrayList<>();
     try {
@@ -61,7 +64,16 @@ public class CountryService implements ICountryService {
     } catch (Exception e) {
       System.out.println("FAILED");
     }
-    // Country c = lenientMapper.readValue(countriesList.get(0), Country.class);
+    System.out.println("list = " + countriesList);
+    String c = countriesList.get(0).toString();
+    // Gson g = new Gson();
+    // Country country = g.fromJson(c, Country.class);
+    // System.out.println(country.name); // John
+    
+    Gson g = new Gson();
+    Person person = g.fromJson("{name:John,city:John1,test:John2}", Person.class);
+    System.out.println(person.name); // John
+    System.out.println(g.toJson(person)); // {"name":"John"}
     return String.format("%s!", countriesList.get(0).toString());
  
   }
@@ -77,4 +89,14 @@ public class CountryService implements ICountryService {
     }
     return countriesList;
   }
+}
+
+class Person {
+  public String name;
+  public String capital;
+
+  public Person(String name, String capital) {
+  this.name = name;
+  this.capital = capital;
+    }
 }
