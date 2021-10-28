@@ -32,3 +32,5 @@ Go to demo and run command mvnw spring-boot:run
 Open browser and go to localhost:8080/hello  
 
 ### How to use  
+
+https://restcountries.com/v3.1/all
