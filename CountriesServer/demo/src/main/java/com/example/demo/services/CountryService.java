@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CountryService implements ICountryService {
-
+  private static final String access_key_query = "?access_key=2f36dbac72a501c4abb690df55f486a7";
   private static final ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
@@ -28,7 +28,7 @@ public class CountryService implements ICountryService {
     WebClient client = WebClient.create();
     WebClient.ResponseSpec responseSpec = client
       .get()
-      .uri("https://restcountries.com/v3.1/all")
+      .uri("http://api.countrylayer.com/v2/all"+access_key_query)
       .retrieve();
     String responseBody = responseSpec.bodyToMono(String.class).block();
     System.out.println(responseBody);
@@ -46,7 +46,7 @@ public class CountryService implements ICountryService {
     WebClient client = WebClient.create();
     WebClient.ResponseSpec responseSpec = client
       .get()
-      .uri("https://restcountries.com/v3.1/name/" + name)
+      .uri("http://api.countrylayer.com/v2/name/" + name + access_key_query)
       .retrieve();
 
     String responseBody = responseSpec.bodyToMono(String.class).block();
