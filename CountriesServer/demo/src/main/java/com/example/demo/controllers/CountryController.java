@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class CountryController {  
@@ -32,10 +34,9 @@ public class CountryController {
     return countryService.getAll();
   }
   
-  // @GetMapping("/countries/{name}")
-  // Country one(@PathVariable String name) {
-    
-  //   return repository.findByName(name)
-  //     .orElseThrow(() -> new CountryNotFoundException(name));
-  // }
+  @GetMapping("/countries/{name}")
+  String getCountry(@PathVariable String name) {
+    return countryService.findByName(name);
+      // .orElseThrow(() -> new CountryNotFoundException(name));
+  }
 }

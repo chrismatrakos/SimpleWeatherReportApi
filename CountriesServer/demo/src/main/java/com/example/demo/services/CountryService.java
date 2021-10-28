@@ -5,27 +5,29 @@ import java.util.ArrayList;
 import com.example.demo.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CountryService implements ICountryService {
-   
-   // @Bean 
-   //  public WebClient localApiClient() {
-   //     return WebClient.create("https://restcountries.com/v3.1/all");
-   //  }
-   //  private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(3);
-   //  private final WebClient localApiClient;
-   //  @Autowired
-   //  public CountryService(WebClient localApiClient) {
-   //      this.localApiClient = localApiClient;
-   //  }
-   //  @Autowired
-   //  private RestTemplate restTemplate;
+    // private final WebClient webClient;
+
+    // @Autowired
+    // public CountryService(WebClient.Builder webClientBuilder) {
+		  //  this.webClient = webClientBuilder.baseUrl("https://restcountries.com/v3.1").build();
+	   // }
     
     @Override
     public List<Country> getAll() {
-      final String uri = "https://restcountries.com/v3.1/all";
-
+     WebClient client = WebClient.create();
+     WebClient.ResponseSpec responseSpec = client.get().uri("https://restcountries.com/v3.1/all").retrieve();
+     String responseBody = responseSpec.bodyToMono(String.class).block();
+     System.out.println(responseBody);
+      // return this.webClient.get().uri("/all")
+						// .retrieve();
+      // .bodyToMono(Country.class);
+      // WebClient webClient = WebClient.create();
       Country c = new Country("C", "A");
       List<Country> list = new ArrayList<Country>();
       list.add(c);
@@ -38,8 +40,13 @@ public class CountryService implements ICountryService {
     }
 
     @Override
-    public String getCountry(String name){
-     	return String.format("Hello %s!", name);
+    public String findByName(String name){
+     WebClient client = WebClient.create();
+     WebClient.ResponseSpec responseSpec = client.get().uri("https://restcountries.com/v3.1/name/" +name ).retrieve();
+     String responseBody = responseSpec.bodyToMono(String.class).block();
+     
+     System.out.println(responseBody);
+     
+     return String.format("Hello %s!", name);
     }
-    
 }
