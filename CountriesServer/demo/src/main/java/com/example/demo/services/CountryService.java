@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -46,12 +47,12 @@ public class CountryService implements ICountryService {
     ObjectMapper mapper = new ObjectMapper();
     List<Object> slist = new ArrayList<>();
 
-    try
-    {
-     slist = Arrays.asList(mapper.readValue(responseBody, Object[].class));
+    try {
+      slist = Arrays.asList(mapper.readValue(responseBody, Object[].class));
+    } catch (Exception e) {
+      System.out.println("FAILED");
     }
-    catch(Exception e){System.out.println("FAILED");}
-    System.out.println(slist);
+    System.out.println(slist.get(0));
 
     return String.format("Hello %s!", responseBody);
   }
