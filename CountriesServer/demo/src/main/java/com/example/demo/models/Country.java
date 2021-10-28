@@ -4,43 +4,36 @@ import javax.persistence.Id;
 import java.util.Objects;
 import javax.persistence.Entity;
 
-@Entity
 public class Country {
  
-  private @Id @GeneratedValue Long id;
   private String name;
-  private String role;
+  private String capital;
+  private String[] topLevelDomain;
+  private String[] altSpellings;
+  private String alpha2Code;
+  private String alpha3Code;
+  private int[] callingCodes;
+  private String region;
 
   public Country() {}
 
-  public Country(String name, String role) {
-    this.id = id; 
+  public Country(String name, String capital, String[] topLevelDomain, String[] altSpellings,  String alpha2Code, String alpha3Code, int[] callingCodes,  String region) {
     this.name = name;
-    this.role = role;
-  }
-
-  public Long getId() {
-    return this.id;
+    this.capital = capital;
+    this.topLevelDomain = topLevelDomain;
+    this.altSpellings = altSpellings;
+    this.alpha2Code = alpha2Code;
+    this.alpha3Code = alpha3Code;  
+    this.callingCodes = callingCodes;
+    this.region = region;
   }
 
   public String getName() {
     return this.name;
   }
-
-  public String getRole() {
-    return this.role;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
+  
   public void setName(String name) {
     this.name = name;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
   }
 
   @Override
@@ -51,17 +44,16 @@ public class Country {
     if (!(o instanceof Country))
       return false;
     Country country = (Country) o;
-    return Objects.equals(this.id, country.id) && Objects.equals(this.name, country.name)
-        && Objects.equals(this.role, country.role);
+    return Objects.equals(this.name, country.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.id, this.name, this.role);
+    return Objects.hash(this.name);
   }
 
   @Override
   public String toString() {
-    return "Country{" + "id=" + this.id + ", name='" + this.name + '\'' + ", role='" + this.role + '\'' + '}';
+    return "Country{ " + "name=" + this.name + "}";
   }
 }

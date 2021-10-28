@@ -62,9 +62,9 @@ public class CountryService implements ICountryService {
     } catch (Exception e) {
       System.out.println("FAILED");
     }
-
+    // Country c = lenientMapper.readValue(countriesList.get(0), Country.class);
     return String.format("%s!", countriesList.get(0).toString());
-    // Country c = lenientMapper.readValue(slist.get(0), Country.class);
+ 
   }
 
   private List<Country> parseResponse(String responseBody) {
