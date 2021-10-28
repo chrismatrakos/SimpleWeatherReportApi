@@ -4,8 +4,8 @@ import java.util.List;
 import reactor.core.publisher.Flux;
 
 public interface ICountryService {
-    List<Country> getAll();
     public String getInit(String text);
+    List<Country> getAll();
     public String findByName(String name);
 
 }

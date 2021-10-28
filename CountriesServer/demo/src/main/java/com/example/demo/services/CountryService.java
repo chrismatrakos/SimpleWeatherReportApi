@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class CountryService implements ICountryService {
+private final static ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
   public List<Country> getAll() {
@@ -25,10 +26,8 @@ public class CountryService implements ICountryService {
       .retrieve();
     String responseBody = responseSpec.bodyToMono(String.class).block();
     System.out.println(responseBody);
-    Country c = new Country("C", "A");
-    List<Country> list = new ArrayList<Country>();
-    list.add(c);
-    return list;
+    parseResponse(responseBody);
+    return new ArrayList<>();
   }
 
   @Override
@@ -43,7 +42,13 @@ public class CountryService implements ICountryService {
       .get()
       .uri("https://restcountries.com/v3.1/name/" + name)
       .retrieve();
-    String responseBody = responseSpec.bodyToMono(String.class).block();
+    
+    String responseBody = responseSpec.bodyToMono(String.class).block();  
+    parseResponse(responseBody);
+    return String.format("Hello %s!", responseBody);
+  }
+  
+  private void  parseResponse(String responseBody){
     ObjectMapper mapper = new ObjectMapper();
     List<Object> slist = new ArrayList<>();
 
@@ -52,8 +57,8 @@ public class CountryService implements ICountryService {
     } catch (Exception e) {
       System.out.println("FAILED");
     }
+    
     System.out.println(slist.get(0));
-
-    return String.format("Hello %s!", responseBody);
+    // Country c = lenientMapper.readValue(slist.get(0), Country.class);
   }
 }
