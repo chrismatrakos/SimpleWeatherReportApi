@@ -34,8 +34,8 @@ public class CountryController {
   }
 
   @GetMapping("/countries")
-  List<Object> all() {
-    return countryService.getAll();
+  String getAllCountries() {
+    return countryService.getAllCountries();
   }
 
   @GetMapping("/countries/{name}")

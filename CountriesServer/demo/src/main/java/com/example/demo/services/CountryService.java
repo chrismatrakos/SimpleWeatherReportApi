@@ -27,14 +27,20 @@ public class CountryService implements ICountryService {
   private static final ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
-  public List<Object> getAll() {
+  public List<Object> getAllCountries() {
     WebClient client = WebClient.create();
-    WebClient.ResponseSpec responseSpec = client
-      .get()
+    Country[] counties = client.get()
       .uri("http://api.countrylayer.com/v2/all"+access_key_query)
-      .retrieve();
-    String responseBody = responseSpec.bodyToMono(String.class).block();
-    return parseResponseAll(responseBody);
+      .retrieve().
+      .onStatus(httpStatus -> !HttpStatus.OK.equals(httpStatus),
+        clientResponse -> {return Mono.error(new CountryNotFoundException());})
+      .bodyToMono(Country[].class)
+      .onErrorMap(throwable ->{
+        return new CountryNotFoundException();
+      })
+      .block();
+    System.out.println("COUNTIES \n" + Arrays.toString(countries));
+    return countries;
   }
 
   @Override
@@ -58,17 +64,5 @@ public class CountryService implements ICountryService {
     
     System.out.println(country[0].toString());
     return country[0];
-  }
-
-  private List<Object> parseResponseAll(String responseBody) {
-    ObjectMapper mapper = new ObjectMapper();
-    List<Object> countriesList = new ArrayList<>();
-    try {
-      countriesList =
-        Arrays.asList(mapper.readValue(responseBody, Object[].class));
-    } catch (Exception e) {
-      System.out.println("FAILED");
-    }
-    return countriesList;
   }
 }

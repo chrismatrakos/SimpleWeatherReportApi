@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 
 public interface ICountryService {
     public String getInit(String text);
-    List<Object> getAll();
+    List<Object> getAllCountries();
     public Country findByName(String name);
 
 }
