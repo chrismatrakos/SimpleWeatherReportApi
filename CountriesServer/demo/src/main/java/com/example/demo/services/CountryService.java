@@ -20,6 +20,8 @@ import reactor.core.publisher.Mono;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.core.*;
+
 
 @Service
 public class CountryService implements ICountryService {
@@ -27,26 +29,24 @@ public class CountryService implements ICountryService {
   private static final ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
-  public Country[] getAllCountries() {
+  public String getInit(String text) {
+    return String.format("Welcome to the server %s!", text);
+  }
+
+  @Override
+  public List<Country> getAllCountries() {
     WebClient client = WebClient.create();
-    Country[] countries = client.get()
+    List <Country> countries = client.get()
       .uri("http://api.countrylayer.com/v2/all" + access_key_query )
       .retrieve()
       .onStatus(httpStatus -> !HttpStatus.OK.equals(httpStatus),
         clientResponse -> {return Mono.error(new CountryNotFoundException());})
-      .bodyToMono(Country[].class)
+      .bodyToMono(new ParameterizedTypeReference<List<Country>>() {})
       .onErrorMap(throwable ->{
         return new CountryNotFoundException();
       })
       .block();
-    //   .bodyToMono(bodyToMono(new ParameterizedTypeReference<List<Country>>() {}))
-    System.out.println("COUNTIES: \n" + Arrays.toString(countries));
     return countries;
-  }
-
-  @Override
-  public String getInit(String text) {
-    return String.format("Welcome to server %s!", text);
   }
 
   @Override

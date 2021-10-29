@@ -35,14 +35,12 @@ public class CountryController {
   }
 
   @GetMapping("/countries")
-  String getAllCountries() {
-    Country[] countries = countryService.getAllCountries();
-    return Arrays.toString(countries);
+   List <Country> getAllCountries() {
+    return countryService.getAllCountries();
   }
 
   @GetMapping("/countries/{name}")
   String getCountry(@PathVariable String name) {
     return countryService.findByName(name).toString();
-    // .orElseThrow(() -> new CountryNotFoundException(name));
   }
 }
