@@ -40,7 +40,7 @@ public class CountryController {
 
   @GetMapping("/countries/{name}")
   String getCountry(@PathVariable String name) {
-    return countryService.findByName(name);
+    return countryService.findByName(name).toString();
     // .orElseThrow(() -> new CountryNotFoundException(name));
   }
 }

@@ -43,7 +43,7 @@ public class CountryService implements ICountryService {
   }
 
   @Override
-  public String findByName(String name) {
+  public Country findByName(String name) {
     WebClient client = WebClient.create();
     Country[] country = client.get()
       .uri("http://api.countrylayer.com/v2/name/" + name + access_key_query)
@@ -57,7 +57,7 @@ public class CountryService implements ICountryService {
       .block();
     
     System.out.println(country[0].toString());
-    return country[0].toString();
+    return country[0];
   }
 
   private List<Object> parseResponseAll(String responseBody) {
