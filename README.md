@@ -41,7 +41,7 @@ Go to the demo folder "SimpleWeatherReportApi\CountriesServer\demo".
 From the root dir of demo folder run the command ```mvnw spring-boot:run ```  
 That command will load all dependencies and start the server.  
 Occe the server is running open browser and go to ```localhost:8080/hello```  
-to check its working, a pring message will be displayed.    
+to check its working, a "welcome" message will be displayed.    
 
 ### How to use  
 All countries data are fetched from 
