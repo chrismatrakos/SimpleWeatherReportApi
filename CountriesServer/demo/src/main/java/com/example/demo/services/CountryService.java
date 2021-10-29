@@ -27,11 +27,11 @@ public class CountryService implements ICountryService {
   private static final ObjectMapper lenientMapper = new ObjectMapper();
 
   @Override
-  public List<Object> getAllCountries() {
+  public Country[] getAllCountries() {
     WebClient client = WebClient.create();
-    Country[] counties = client.get()
-      .uri("http://api.countrylayer.com/v2/all"+access_key_query)
-      .retrieve().
+    Country[] countries = client.get()
+      .uri("http://api.countrylayer.com/v2/all" + access_key_query )
+      .retrieve()
       .onStatus(httpStatus -> !HttpStatus.OK.equals(httpStatus),
         clientResponse -> {return Mono.error(new CountryNotFoundException());})
       .bodyToMono(Country[].class)
@@ -39,7 +39,8 @@ public class CountryService implements ICountryService {
         return new CountryNotFoundException();
       })
       .block();
-    System.out.println("COUNTIES \n" + Arrays.toString(countries));
+    //   .bodyToMono(bodyToMono(new ParameterizedTypeReference<List<Country>>() {}))
+    System.out.println("COUNTIES: \n" + Arrays.toString(countries));
     return countries;
   }
 
