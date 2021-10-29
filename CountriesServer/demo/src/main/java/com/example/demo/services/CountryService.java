@@ -1,5 +1,5 @@
 package com.example.demo.services;
-
+import com.example.demo.CountryNotFoundException;
 import com.example.demo.models.Country;
 import com.example.demo.repositories.CountryRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class CountryService implements ICountryService {
@@ -33,7 +34,6 @@ public class CountryService implements ICountryService {
       .uri("http://api.countrylayer.com/v2/all"+access_key_query)
       .retrieve();
     String responseBody = responseSpec.bodyToMono(String.class).block();
-    System.out.println("test ------------------------- " + responseBody.toString());
     return parseResponseAll(responseBody);
   }
 
@@ -45,21 +45,19 @@ public class CountryService implements ICountryService {
   @Override
   public String findByName(String name) {
     WebClient client = WebClient.create();
-    WebClient.ResponseSpec responseSpec = client
-      .get()
+    Country[] country = client.get()
       .uri("http://api.countrylayer.com/v2/name/" + name + access_key_query)
-      .retrieve();
-
-    String responseBody = responseSpec.bodyToMono(String.class).block();
-    return String.format("%s", parseCountryByName(responseBody));
-  }
-
-  private String parseCountryByName(String responseBody) {
-    Gson g1 = new Gson();
-    Country[] countries = g1.fromJson(responseBody.toString(), Country[].class);
-    System.out.println("g1 ====== " + g1.toJson(countries));
-    System.out.println("g2 ====== " + countries[0].toString());
-    return String.format("%s",  countries[0].toString());
+      .retrieve()
+      .onStatus(httpStatus -> !HttpStatus.OK.equals(httpStatus),
+                clientResponse -> {return Mono.error(new CountryNotFoundException(name));})
+      .bodyToMono(Country[].class)
+      .onErrorMap(throwable ->{
+        return new CountryNotFoundException(name);
+      })
+      .block();
+    
+    System.out.println(country[0].toString());
+    return country[0].toString();
   }
 
   private List<Object> parseResponseAll(String responseBody) {
@@ -73,14 +71,4 @@ public class CountryService implements ICountryService {
     }
     return countriesList;
   }
-}
-
-class Person {
-  public String name;
-  public String capital;
-
-  public Person(String name, String capital) {
-  this.name = name;
-  this.capital = capital;
-    }
 }

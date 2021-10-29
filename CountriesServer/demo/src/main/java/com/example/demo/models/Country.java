@@ -12,6 +12,8 @@ public class Country {
   public String alpha3Code;
   public String region;
 
+  public Country () {}
+  
   public Country(String name, String capital,  String alpha2Code, String alpha3Code,  String region) {
     this.name = name;
     this.capital = capital;
