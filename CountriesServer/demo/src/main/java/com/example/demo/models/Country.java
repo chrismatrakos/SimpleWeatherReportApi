@@ -67,6 +67,6 @@ public class Country {
 
   @Override
   public String toString() {
-    return "Country{ " + "name=" + this.name + "capital=" + this.capital + "alpha2Code=" + this.alpha2Code + "alpha3Code=" + this.alpha3Code + "region=" + this.region +"}";
+    return String.format("Country : {name=%s, capital=%s, alpha2Code=%s, alpha3Code=%s, region=%s}", this.name, this.capital, this.alpha2Code, this.alpha3Code, this.region);
   }
 }

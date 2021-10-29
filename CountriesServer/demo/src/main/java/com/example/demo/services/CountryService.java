@@ -51,39 +51,15 @@ public class CountryService implements ICountryService {
       .retrieve();
 
     String responseBody = responseSpec.bodyToMono(String.class).block();
-    return String.format("%s!", parseCountryByName(responseBody));
+    return String.format("%s", parseCountryByName(responseBody));
   }
 
   private String parseCountryByName(String responseBody) {
-    System.out.println("response ------- " + responseBody.toString());
-
     Gson g1 = new Gson();
-    Country[] myTypes = g1.fromJson(responseBody.toString(), Country[].class);
-    System.out.println("g1 ====== " + g1.toJson(myTypes));
-    
-    System.out.println("g2 ====== " + myTypes[0].toString());
-
-    ObjectMapper mapper = new ObjectMapper();
-    List<Object> countriesList = new ArrayList<>();
-    try {
-      countriesList =
-        Arrays.asList(mapper.readValue(responseBody, Object[].class));
-    } catch (Exception e) {
-      System.out.println("FAILED");
-    }
-    System.out.println("list ====== " + countriesList);
-    Object c = countriesList.get(0);
-    System.out.println("c ======== " + c);
-
-    // Gson g = new Gson();
-    // Country country = g.fromJson(c, Country.class);
-    // System.out.println(country.name); // John
-    Gson g = new Gson();
-    Person person = g.fromJson(c.toString(), Person.class);
-    System.out.println(person.name); // John
-    System.out.println(g.toJson(person)); // {"name":"John"}
-    return String.format("%s!", countriesList.get(0).toString());
- 
+    Country[] countries = g1.fromJson(responseBody.toString(), Country[].class);
+    System.out.println("g1 ====== " + g1.toJson(countries));
+    System.out.println("g2 ====== " + countries[0].toString());
+    return String.format("%s",  countries[0].toString());
   }
 
   private List<Object> parseResponseAll(String responseBody) {
